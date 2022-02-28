@@ -2,7 +2,7 @@
 
 ## preparation
 1. docker compose 
-```aidl
+```
 version: "3"
 services:
   mysql:
@@ -15,13 +15,13 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
     entrypoint:
       sh -c "
-        echo \"CREATE DATABASE IF NOT EXISTS billing_dev; CREATE DATABASE IF NOT EXISTS demo; CREATE USER admin@'%' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON *.* TO admin@'%';\" > /docker-entrypoint-initdb.d/init.sql;
+        echo \"CREATE DATABASE IF NOT EXISTS demo; CREATE USER admin@'%' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON *.* TO admin@'%';\" > /docker-entrypoint-initdb.d/init.sql;
         /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
       "
 ```
 
 2. create table and insert data
-```aidl
+```
 CREATE TABLE IF NOT EXISTS `demo` (
 `id` SERIAL PRIMARY KEY,
 `use_yn` bit(1) NOT NULL DEFAULT b'1' COMMENT '사용여부'
