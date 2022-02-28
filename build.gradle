@@ -1,14 +1,13 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.1'
+    //id 'org.springframework.boot' version '2.6.3'
+    id 'org.springframework.boot' version '2.6.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'org.springframework.experimental.aot' version '0.10.0'
-    id 'org.graalvm.buildtools.native' version '0.9.0'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '16'
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -17,47 +16,20 @@ configurations {
 }
 
 repositories {
-    maven { url 'https://repo.spring.io/release' }
     mavenCentral()
 }
 
-ext {
-    set('testcontainersVersion', "1.15.3")
-}
-
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-    implementation 'org.springframework.boot:spring-boot-starter-rsocket'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.springframework.security:spring-security-messaging'
-    implementation 'org.springframework.security:spring-security-rsocket'
+    implementation 'org.mariadb:r2dbc-mariadb'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'dev.miku:r2dbc-mysql'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.testcontainers:junit-jupiter'
-    testImplementation 'org.testcontainers:mysql'
-    testImplementation 'org.testcontainers:r2dbc'
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
-    }
-}
-
-test {
+tasks.named('test') {
     useJUnitPlatform()
-}
-
-bootBuildImage {
-    builder = 'paketobuildpacks/builder:tiny'
-    environment = ['BP_NATIVE_IMAGE': 'true']
 }
